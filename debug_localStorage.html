@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug localStorage</title>
+</head>
+<body>
+    <h1>localStorage Debug</h1>
+    <div id="output"></div>
+    
+    <script>
+        const output = document.getElementById('output');
+        
+        // Check transformResult
+        const transformResult = localStorage.getItem('transformResult');
+        console.log('transformResult:', transformResult);
+        
+        if (transformResult) {
+            try {
+                const parsed = JSON.parse(transformResult);
+                output.innerHTML += '<h2>transformResult:</h2>';
+                output.innerHTML += '<pre>' + JSON.stringify(parsed, null, 2) + '</pre>';
+                
+                // Check the results structure
+                if (parsed.results) {
+                    output.innerHTML += '<h3>Results keys:</h3>';
+                    output.innerHTML += '<ul>';
+                    Object.keys(parsed.results).forEach(key => {
+                        output.innerHTML += '<li>' + key + '</li>';
+                    });
+                    output.innerHTML += '</ul>';
+                    
+                    // Check less_conservative_aggregated specifically
+                    if (parsed.results.less_conservative_aggregated) {
+                        output.innerHTML += '<h3>less_conservative_aggregated:</h3>';
+                        output.innerHTML += '<pre>' + JSON.stringify(parsed.results.less_conservative_aggregated, null, 2) + '</pre>';
+                    }
+                }
+            } catch (e) {
+                output.innerHTML += '<p>Error parsing transformResult: ' + e.message + '</p>';
+            }
+        } else {
+            output.innerHTML += '<p>No transformResult found in localStorage</p>';
+        }
+    </script>
+</body>
+</html> 
