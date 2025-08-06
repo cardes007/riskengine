@@ -1,0 +1,141 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* P&L Table Styles */
+.pl-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  margin-bottom: 2rem;
+}
+.pl-table th, .pl-table td {
+  border: 1px solid #e0e0e0;
+  padding: 4px 8px;
+  text-align: center;
+  font-size: 15px;
+  min-width: 70px;
+  vertical-align: middle;
+}
+.pl-table th {
+  background: #f7f7f7;
+  font-weight: 600;
+}
+.pl-table tr:hover td {
+  background: #f5faff;
+}
+
+/* Spreadsheet-like input style for P&L and cohort tables */
+.pl-table input[type="number"],
+.pl-table input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1.5px solid #d0d0d0;
+  border-radius: 0;
+  padding: 2px 4px;
+  font-size: 15px;
+  background: transparent;
+  outline: none;
+  transition: border-bottom 0.2s;
+  box-shadow: none;
+}
+.pl-table input[type="number"]::-webkit-inner-spin-button,
+.pl-table input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pl-table input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.pl-table input:focus {
+  border-bottom: 2px solid #1976d2;
+  background: transparent;
+}
+.pl-table .error-cell {
+  background: none !important;
+}
+.pl-table .error-input {
+  border-bottom: 2px solid #e53935 !important;
+  background: transparent !important;
+}
+.pl-table .error-message {
+  color: #e53935;
+  font-size: 11px;
+  margin-top: 2px;
+}
+.pl-table tr:hover td {
+  background: none;
+}
+
+/* P&L Professional Formatting */
+.pl-table .pl-main {
+  font-weight: 500;
+  background: #fff;
+}
+.pl-table .pl-subtotal {
+  font-weight: 600;
+  background: #f4f7fa;
+  border-top: 2px solid #b0b0b0;
+  border-bottom: 2px solid #b0b0b0;
+}
+.pl-table .pl-total {
+  font-weight: 700;
+  background: #eaf3ea;
+  border-top: 2.5px solid #388e3c;
+  border-bottom: 2.5px solid #388e3c;
+  color: #205c20;
+}
+.pl-table .pl-sublabel {
+  font-weight: 400;
+  color: #444;
+  background: #f9f9f9;
+  padding-left: 2em !important;
+}
+.pl-table td.pl-sublabel {
+  padding-left: 2em !important;
+}
+.pl-table td.pl-main, .pl-table td.pl-subtotal, .pl-table td.pl-total {
+  padding-left: 0.5em;
+}
