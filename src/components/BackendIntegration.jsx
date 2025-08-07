@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import config from '../config';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 export default function BackendIntegration({ plData, cohortData }) {
   const [importResult, setImportResult] = useState(null);
@@ -46,7 +47,7 @@ export default function BackendIntegration({ plData, cohortData }) {
 
     try {
       // Import all data in a single call
-      const response = await fetch(`${config.getBackendUrl()}/import/all`, {
+      const response = await fetch(`${BACKEND_URL}/import/all`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ export default function BackendIntegration({ plData, cohortData }) {
     setTransformResult(null);
 
     try {
-      const response = await fetch(`${config.getBackendUrl()}/transform-to-lender-cashflows`, {
+      const response = await fetch(`${BACKEND_URL}/transform-to-lender-cashflows`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
