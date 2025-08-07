@@ -12,8 +12,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins for deployed version
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Data models
@@ -58,7 +59,12 @@ class TransformRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Risk Engine Backend API"}
+    import os
+    return {
+        "message": "Risk Engine Backend API",
+        "port": os.environ.get("PORT", "not set"),
+        "status": "running"
+    }
 
 @app.get("/health")
 async def health_check():
@@ -71,12 +77,28 @@ async def import_all_options():
     """
     return {"message": "OK"}
 
+@app.get("/import/all")
+async def import_all_get():
+    """
+    GET endpoint for debugging import path
+    """
+    return {"message": "Import endpoint accessible via GET", "status": "ok"}
+
 @app.post("/test-import")
 async def test_import():
     """
     Simple test endpoint to verify POST requests work
     """
     return {"message": "POST request successful", "status": "ok"}
+
+@app.exception_handler(405)
+async def method_not_allowed_handler(request, exc):
+    """
+    Handle 405 Method Not Allowed errors
+    """
+    print(f"🚨 405 Error: {request.method} {request.url}")
+    print(f"🚨 Allowed methods: {request.scope.get('allowed_methods', [])}")
+    return {"error": "Method not allowed", "method": request.method, "url": str(request.url), "status": 405}
 
 @app.get("/ndr-evolution")
 async def get_ndr_evolution():
@@ -322,6 +344,10 @@ async def import_all_data(data: ImportData):
         if not data.cohort_data:
             print("⚠️  No cohort data received")
             return {"error": "No cohort data provided", "status": "error"}
+        
+        print(f"✅ Data validation passed")
+        print(f"✅ P&L data type: {type(data.pl_data)}")
+        print(f"✅ Cohort data type: {type(data.cohort_data)}")
         
         # Extract S&M data
         sm_data = []
@@ -571,4 +597,10 @@ async def get_irr_data():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    import os
+    
+    # Get port from environment variable (Railway sets this)
+    port = int(os.environ.get("PORT", 8000))
+    
+    print(f"🚀 Starting server on port {port}")
+    uvicorn.run(app, host="0.0.0.0", port=port) 
