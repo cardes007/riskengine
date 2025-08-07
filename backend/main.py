@@ -59,12 +59,7 @@ class TransformRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    import os
-    return {
-        "message": "Risk Engine Backend API",
-        "port": os.environ.get("PORT", "not set"),
-        "status": "running"
-    }
+    return {"message": "Risk Engine Backend API"}
 
 @app.get("/health")
 async def health_check():
@@ -597,10 +592,4 @@ async def get_irr_data():
 
 if __name__ == "__main__":
     import uvicorn
-    import os
-    
-    # Get port from environment variable (Railway sets this)
-    port = int(os.environ.get("PORT", 8000))
-    
-    print(f"🚀 Starting server on port {port}")
-    uvicorn.run(app, host="0.0.0.0", port=port) 
+    uvicorn.run(app, host="0.0.0.0", port=8000) 
