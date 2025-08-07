@@ -5,7 +5,6 @@ import BackendIntegration from './components/BackendIntegration';
 import NDREvolutionChart from './components/NDREvolutionChart';
 import IRRDisplay from './components/IRRDisplay';
 import EBITDAMarginChart from './components/EBITDAMarginChart';
-import BackendDebug from './components/BackendDebug';
 import './App.css';
 
 const ALL_MONTHS = [
@@ -359,9 +358,6 @@ function App() {
             monthLabels={monthLabels}
           />
         </div>
-        
-        {/* Backend Debug Component */}
-        <BackendDebug />
         
         {/* Backend Integration Component */}
         <BackendIntegration 
