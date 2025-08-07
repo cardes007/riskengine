@@ -46,6 +46,12 @@ export default function BackendIntegration({ plData, cohortData }) {
     }
 
     try {
+      console.log('Attempting to fetch from:', `${BACKEND_URL}/import/all`);
+      console.log('Request payload:', {
+        pl_data: currentPLData,
+        cohort_data: currentCohortData
+      });
+      
       // Import all data in a single call
       const response = await fetch(`${BACKEND_URL}/import/all`, {
         method: 'POST',
@@ -58,11 +64,17 @@ export default function BackendIntegration({ plData, cohortData }) {
         }),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Response error text:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
       }
 
       const result = await response.json();
+      console.log('Response result:', result);
 
       setImportResult({
         success: true,
@@ -71,7 +83,8 @@ export default function BackendIntegration({ plData, cohortData }) {
         full_cohorts_count: result.pl_data?.count || 0
       });
     } catch (err) {
-      setError(err.message);
+      console.error('Import error details:', err);
+      setError(`Import failed: ${err.message}. Backend URL: ${BACKEND_URL}`);
     } finally {
       setLoading(false);
     }
