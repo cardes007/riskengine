@@ -10,12 +10,7 @@ app = FastAPI(title="Risk Engine Backend", version="1.0.0")
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173", 
-        "http://127.0.0.1:5173",  # Vite default ports
-        "https://your-frontend-domain.vercel.app",  # Replace with your actual frontend domain
-        "https://your-frontend-domain.netlify.app",  # Replace with your actual frontend domain
-    ],
+    allow_origins=["*"],  # Allow all origins for deployed version
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -68,6 +63,20 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.options("/import/all")
+async def import_all_options():
+    """
+    Handle OPTIONS request for CORS preflight
+    """
+    return {"message": "OK"}
+
+@app.post("/test-import")
+async def test_import():
+    """
+    Simple test endpoint to verify POST requests work
+    """
+    return {"message": "POST request successful", "status": "ok"}
 
 @app.get("/ndr-evolution")
 async def get_ndr_evolution():
@@ -297,9 +306,22 @@ async def import_all_data(data: ImportData):
     print("\n" + "="*60)
     print("🚀 IMPORTING DATA FROM FRONTEND")
     print("="*60)
+    print(f"📋 Request method: POST")
+    print(f"📋 Data received: {type(data)}")
+    print(f"📋 P&L data count: {len(data.pl_data) if data.pl_data else 0}")
+    print(f"📋 Cohort data count: {len(data.cohort_data) if data.cohort_data else 0}")
     
     try:
-        print(f"📊 Received {len(data.pl_data)} P&L rows and {len(data.cohort_data)} cohort rows")
+        print(f"📊 Received {len(data.pl_data) if data.pl_data else 0} P&L rows and {len(data.cohort_data) if data.cohort_data else 0} cohort rows")
+        
+        # Validate input data
+        if not data.pl_data:
+            print("⚠️  No P&L data received")
+            return {"error": "No P&L data provided", "status": "error"}
+        
+        if not data.cohort_data:
+            print("⚠️  No cohort data received")
+            return {"error": "No cohort data provided", "status": "error"}
         
         # Extract S&M data
         sm_data = []
