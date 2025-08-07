@@ -5,7 +5,7 @@ from typing import List, Optional
 import json
 import os
 
-app = FastAPI(title="Company Cohort Web Backend", version="1.0.0")
+app = FastAPI(title="Risk Engine Backend", version="1.0.0")
 
 # Enable CORS for frontend
 app.add_middleware(
@@ -63,7 +63,7 @@ class TransformRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Company Cohort Web Backend API"}
+    return {"message": "Risk Engine Backend API"}
 
 @app.get("/health")
 async def health_check():
