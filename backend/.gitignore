@@ -1,0 +1,23 @@
+# Data files
+*.xlsx
+*.json
+*.csv
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+~$*
+*.tmp
+*.temp 
