@@ -13,8 +13,12 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173", 
         "http://127.0.0.1:5173",  # Vite default ports
-        "https://your-frontend-domain.vercel.app",  # Replace with your actual frontend domain
-        "https://your-frontend-domain.netlify.app",  # Replace with your actual frontend domain
+        "https://riskengine.vercel.app",  # Replace with your actual frontend domain
+        "https://riskengine.netlify.app",  # Replace with your actual frontend domain
+        "https://*.vercel.app",  # Allow any Vercel subdomain
+        "https://*.netlify.app",  # Allow any Netlify subdomain
+        "https://*.railway.app",  # Allow any Railway subdomain
+        "https://*.render.com",   # Allow any Render subdomain
     ],
     allow_credentials=True,
     allow_methods=["*"],
